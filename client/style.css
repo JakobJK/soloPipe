@@ -1,0 +1,27 @@
+* {
+  padding: 0px;
+  margin: 0px;
+}
+
+body {
+  background-color: #EEE;
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  width: calc(100% - 100px);
+  height: 50px;
+  padding-left: 50px;
+  padding-right: 50px;
+  background-color: blanchedalmond;
+}
+
+nav ul {
+  list-style: none;
+}
+
+nav ul li {
+  display: inline-block;
+  width: 100px;
+}
