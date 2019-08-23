@@ -7,7 +7,7 @@ import Profile from './Profile';
 import Admin from './Admin';
 
 export default function App() {
-  const [loggedIn, setLoggedIn] = useState(0);
+  const [loggedIn, setLoggedIn] = useState(1);
 
 
   if (loggedIn) {

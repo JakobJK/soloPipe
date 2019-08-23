@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const { login } = require('./server/controllers/db_controllers');
-
+const upload = require('./server/controllers/upload_controllers');
 
 const app = express();
 
@@ -31,6 +31,23 @@ app.post('/api/createUser',
   // Give a response saying that the use was succesfully created
   (req, res) => {
     res.end();
+  });
+
+
+app.post('/api/upload',
+  upload.single('upload_file'),
+  // Verify the user is me
+  // Mac address???
+  // upload the file
+  // store it in uploads
+  (req, res) => {
+    const { file } = req;
+    console.log(file);
+    if (!file) {
+      const error = new Error('Please upload a file');
+      error.httpStatusCode = 400;
+    }
+    return res.send({ loginFail: 'Yes' });
   });
 
 app.listen(3000, () => console.log('Server is running on port 3000'));
