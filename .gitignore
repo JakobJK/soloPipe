@@ -1,2 +1,4 @@
+dist
+.cache
 node_modules
 server/secrets/
