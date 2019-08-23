@@ -1,2 +1,3 @@
 # soloPipe
-An small application for the freelance modeler
+
+A simple pipeline tool for the off site CG Freelancer
