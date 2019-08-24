@@ -11,6 +11,13 @@ app.use(bodyParser.json());
 app.use(express.static('dist'));
 
 
+app.get('/api/getProjects/',
+  // isAuthenticated - is admin?
+  // Get only your projects or all projects of admin
+  (req, res) => {
+
+  });
+
 app.post('/api/login',
   login,
   // isRegistered
@@ -26,8 +33,7 @@ app.post('/api/login',
 
 app.post('/api/createUser',
   // Verify that I am logged in as Admin using JWTs
-  // Verify that the input is correct.
-  // Store the information in a DB
+  // Verify that the input is correct. Store the information in a DB
   // Give a response saying that the use was succesfully created
   (req, res) => {
     res.end();
@@ -48,6 +54,15 @@ app.post('/api/upload',
       error.httpStatusCode = 400;
     }
     return res.send({ loginFail: 'Yes' });
+  });
+
+app.get('/api/file/:id',
+  // veryify the login
+  // upload the file
+  // store it in uploads
+  (req, res) => {
+    console.log(req.params.id);
+    res.end();
   });
 
 app.listen(3000, () => console.log('Server is running on port 3000'));

@@ -7,7 +7,7 @@ export default function NavBar() {
   const navigationalItems = listItems.map(x => <Link to={`/${x.toLowerCase()}`}><li>{x}</li></Link>);
   return (
     <nav>
-      <a href="#">Logo</a>
+      <div>Logo</div>
       <ul>
         {navigationalItems}
       </ul>
