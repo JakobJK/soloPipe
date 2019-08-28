@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import NavBar from './NavBar';
 import Login from './Login';
 import Dashboard from './Dashboard';
@@ -7,10 +8,10 @@ import Profile from './Profile';
 import Admin from './Admin';
 
 export default function App() {
-  const [loggedIn, setLoggedIn] = useState(1);
+  const isLoggedIn = useSelector(state => state.profile.isLoggedIn);
 
 
-  if (loggedIn) {
+  if (isLoggedIn) {
     return (
       <Router>
         <React.Fragment>
