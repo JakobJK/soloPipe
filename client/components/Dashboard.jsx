@@ -2,11 +2,11 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { setSubmission } from '../store/action';
-import Submissions from './Submissions';
+import Companies from './Companies';
 
 export default function Dashboard() {
   const loaded = useSelector(state => state.submission.submissionLoaded);
-  const submissionsArr = useSelector(state => state.submission.submissions);
+  const submissionState = useSelector(state => state.submission.submissions);
   const dispatch = useDispatch();
   useEffect(() => {
     if (loaded === 0) {
@@ -15,20 +15,34 @@ export default function Dashboard() {
         headers: { 'Content-Type': 'application/json' },
       }).then(response => response.json())
         .then((data) => {
-          const remodeled = data.reduce((acu, ite) => { acu[ite]; }, {});
-          // dispatch(setSubmission(data));
+          const remodeled = data.reduce((acu, ite) => {
+            if (!acu.hasOwnProperty(ite.company)) {
+              acu[ite.company] = {};
+            }
+            if (!acu[ite.company].hasOwnProperty(ite.project)) {
+              acu[ite.company][ite.project] = {};
+            }
+            if (!acu[ite.company][ite.project].hasOwnProperty(ite.asset)) {
+              acu[ite.company][ite.project][ite.asset] = [];
+            }
+
+            acu[ite.company][ite.project][ite.asset].push([ite.submissionid, ite.report, ite.companyid, ite.filelocation, ite.asset, ite.project, ite.uploaded, ite.company]);
+            return acu;
+          }, {});
+
+          dispatch(setSubmission(remodeled));
         })
         .catch(error => error);
     }
   });
 
-  const listSubmissions = submissionsArr.map(x => <Submissions name={x.project} />);
+  const listCompanies = Object.keys(submissionState).map(x => <Companies company={x} projects={submissionState[x]} />);
   return (
     <div>
       <h1>
         Dashboard
       </h1>
-      {listSubmissions}
+      {listCompanies}
     </div>
   );
 }

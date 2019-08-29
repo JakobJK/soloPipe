@@ -4,6 +4,7 @@ const cookieParser = require('cookie-parser');
 const {
   login,
   createUser,
+  findEmail,
   deleteUser,
   getUsers,
   getfile,
@@ -15,6 +16,7 @@ const upload = require('./server/controllers/upload_controllers');
 const {
   verify,
   signToken,
+  signForgetToken,
   isAdmin,
 } = require('./server/controllers/jwt_controllers');
 
@@ -77,5 +79,18 @@ app.post('/api/upload',
     res.end();
   });
 
+app.post('/api/forgot',
+  findEmail,
+  signForgetToken,
+  (req, res) => {
+    console.log('lol');
+    return res.end();
+  });
+
+app.get('/api/forgot/:token',
+  (req, res) => {
+    console.log('lol');
+    return res.end();
+  });
 
 app.listen(3000, () => console.log('Server is running on port 3000'));

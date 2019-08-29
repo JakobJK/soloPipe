@@ -22,22 +22,32 @@ module.exports = {
       users.username,
       users.usermail,
       users.hashpass,
-      userspermission.permission
+      userspermission.permission,
+      employees.companyid,
+      companies.company
       FROM users
       FULL OUTER JOIN userspermission
       ON users.userid = userspermission.userid
-      WHERE username = $1`, [username])
+      FULL OUTER JOIN employees
+      ON users.userid = employees.userid
+      LEFT JOIN companies
+      ON employees.companyid = companies.companyid
+      WHERE users.username = $1`, [username])
       .then((response) => {
         if (response.rows.length === 0) {
           res.sendStatus(401);
           return res.end();
         }
-        const { hashpass, userid, permission } = response.rows[0];
+        const {
+          hashpass, userid, permission, companyid, companyName,
+        } = response.rows[0];
         bcrypt.compare(password, hashpass, (error, resolve) => {
           if (resolve) {
             res.locals.userid = userid;
-            res.locals.permission = permission;
+            res.locals.permission = permission || null;
             res.locals.username = username;
+            res.locals.companyid = companyid || null;
+            res.locals.companyName = companyName || null;
             return next();
           }
           res.sendStatus(401);
@@ -48,7 +58,24 @@ module.exports = {
         console.log(e);
       }));
   },
+  findEmail: (req, res, next) => {
+    const { usermail } = req.body;
+    pool
+      .query(`
+      SELECT
+      userid,
+      usermail
+      FROM users
+      WHERE usermail = ${usermail}`)
+      .then((response) => {
+        res.locals.usermail = response.rows[0].usermail;
+        res.locals.usermail = response.rows[0].userid;
 
+        res.send(response.rows);
+        return next();
+      })
+      .catch(error => setImmediate(() => error));
+  },
   getUsers: (req, res) => {
     if (res.locals.permission !== 'isAdmin') {
       res.sendStatus(401);
@@ -56,14 +83,21 @@ module.exports = {
     }
     pool
       .query(`
+
       SELECT
       users.userid,
       users.username,
       users.usermail,
-      userspermission.permission
+      userspermission.permission,
+      employees.companyid,
+      companies.company
       FROM users
       FULL OUTER JOIN userspermission
-      ON users.userid = userspermission.userid`)
+      ON users.userid = userspermission.userid
+      FULL OUTER JOIN employees
+      ON users.userid = employees.userid
+      LEFT JOIN companies
+      ON employees.companyid = companies.companyid`)
       .then((response) => {
         res.send(response.rows);
         return res.end();
@@ -72,46 +106,43 @@ module.exports = {
   },
 
   submissions: (req, res, next) => {
-    const { userid, permission } = res.locals;
+    const { companyid, permission } = res.locals;
 
     const adminSql = `
     SELECT
     submission.submissionid,
     submission.report,
-    submission.userid,
+    submission.companyid,
     submission.filelocation,
     submission.asset,
     submission.project,
     submission.uploaded,
-    users.username,
-    users.usermail
+    companies.company
     FROM submission
-    JOIN users
-    ON users.userid = submission.userid
+    JOIN companies
+    ON submission.companyid = companies.companyid
     `;
 
     const userSql = `
     SELECT
     submission.submissionid,
     submission.report,
-    submission.userid,
+    submission.companyid,
     submission.filelocation,
     submission.asset,
     submission.project,
     submission.uploaded,
-    users.username,
-    users.usermail
+    companies.company
     FROM submission
-    JOIN users
-    ON users.userid = submission.userid
-    WHERE userid = ${userid}
+    JOIN companies
+    ON submission.companyid = companies.companyid
+    WHERE submission.companyid = ${companyid}
     `;
 
     const sql = permission ? adminSql : userSql;
     pool
       .query(sql)
       .then((response) => {
-        console.log(response.rows);
         res.send(response.rows);
         res.end();
       })

@@ -1,5 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { setLogin } from '../store/action';
 
 export default function Login() {
@@ -15,7 +16,6 @@ export default function Login() {
         onClick={() => {
           const username = document.getElementById('loginInput').value;
           const password = document.getElementById('passwordInput').value;
-
           if (username && password) {
             fetch('/api/login', {
               method: 'POST',
@@ -33,8 +33,9 @@ export default function Login() {
         }}
       >
         Submit
-
       </button>
+      <Link to="/forgot">Forgot</Link>
+
     </div>
   );
 }

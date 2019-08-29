@@ -2,6 +2,8 @@ import * as types from '../actionTypes';
 
 const initialState = {
   username: 'Default User',
+  companyid: 0,
+  companyName: 'Default Company',
   isLoggedIn: 0,
   isAdmin: 0,
   permission: 'null',

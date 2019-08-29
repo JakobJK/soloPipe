@@ -16,6 +16,7 @@ module.exports = {
       if (openJWT.isLoggedIn) {
         res.locals.permission = openJWT.permission;
         res.locals.userid = openJWT.userid;
+        res.locals.companyid = openJWT.companyid;
         return next();
       }
     });
@@ -26,22 +27,38 @@ module.exports = {
       {
         userid: res.locals.userid,
         permission: res.locals.permission,
+        companyid: res.locals.companyid,
+        companyName: res.locals.companyName,
         isLoggedIn: 1,
       },
       jwtSecret,
     );
     res.cookie('Authentication', signedJWT);
-    return res.send({
-      userid: res.locals.userid,
+    res.send({
       username: res.locals.username,
+      userid: res.locals.userid,
       permission: res.locals.permission,
+      companyid: res.locals.companyid,
       isLoggedIn: 1,
     });
+    return res.end();
   },
 
   isAdmin: (req, res, next) => {
     if (res.locals.permission === 'isAdmin') return next();
     res.sendStatus(401);
     return res.end();
+  },
+
+
+  signForgetToken: (req, res, next) => {
+    const forgotToken = jwt.sign({
+      userid: res.locals.userid,
+      forgot: 1,
+    },
+    jwtSecret);
+
+    res.locals.forgotToken = forgotToken;
+    return next();
   },
 };

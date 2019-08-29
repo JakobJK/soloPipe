@@ -1,9 +1,9 @@
 import React from 'react';
 
-export default function Submissions(props) {
+export default function Asset(props) {
   return (
     <div>
-      {props.name}
+      {props.elem}
     </div>
   );
 }
