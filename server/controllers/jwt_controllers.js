@@ -54,10 +54,9 @@ module.exports = {
   signForgetToken: (req, res, next) => {
     const forgotToken = jwt.sign({
       userid: res.locals.userid,
-      forgot: 1,
+      forgot: true,
     },
     jwtSecret);
-
     res.locals.forgotToken = forgotToken;
     return next();
   },

@@ -27,10 +27,8 @@ export default function App() {
   }
   return (
     <main>
-      <div>
-        <Route exact path="/" component={Login} />
-        <Route path="/forgot" component={Forgot} />
-      </div>
+      <Route exact path="/" component={Login} />
+      <Route path="/forgot" component={Forgot} />
     </main>
   );
 }

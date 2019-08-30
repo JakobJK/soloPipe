@@ -38,11 +38,11 @@ export default function Dashboard() {
 
   const listCompanies = Object.keys(submissionState).map(x => <Companies company={x} projects={submissionState[x]} />);
   return (
-    <div>
-      <h1>
+    <React.Fragment>
+      <div className="dashboardHeader">
         Dashboard
-      </h1>
+      </div>
       {listCompanies}
-    </div>
+    </React.Fragment>
   );
 }

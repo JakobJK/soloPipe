@@ -2,7 +2,8 @@ CREATE TABLE users(
   userid SERIAL PRIMARY KEY,
   username VARCHAR NOT NULL,
   usermail VARCHAR NOT NULL,
-  hashPass VARCHAR NOT NULL
+  hashPass VARCHAR NOT NULL,
+  UNIQUE (usermail)
 );
 
 CREATE TABLE companies(
@@ -14,6 +15,7 @@ CREATE TABLE companies(
 CREATE TABLE submission(
 submissionid SERIAL PRIMARY KEY,
 report TEXT,
+details TEXT,
 companyid INTEGER REFERENCES companies(companyid),
 fileLocation VARCHAR NOT NULL,
 asset VARCHAR NOT NULL,

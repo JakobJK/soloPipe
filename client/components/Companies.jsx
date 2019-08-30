@@ -4,11 +4,15 @@ import Projects from './Projects';
 export default function Submissions(props) {
   const { company, projects } = props;
 
-  const listCompanies = Object.keys(projects).map(x => <Projects title={x} assets={projects[x]} />);
+
+  const listProjects = Object.keys(projects).map(x => <Projects title={x} assets={projects[x]} />);
   return (
-    <div>
-      <h2>{company}</h2>
-      {listCompanies}
-    </div>
+    <React.Fragment>
+      <div className="companyHeadline">
+        <h2 onClick={() => { console.log({ company }); }}>{company}</h2>
+      </div>
+      {listProjects}
+
+    </React.Fragment>
   );
 }

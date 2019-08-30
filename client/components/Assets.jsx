@@ -2,17 +2,23 @@ import React from 'react';
 import Asset from './Asset';
 
 export default function Assets(props) {
-  const detailesColumns = props.details.map(x => <Asset elem={x} />);
+  const detailesColumns = props.details.map(x => (
+    <Asset
+      submissionid={x[0]}
+      report={x[1]}
+      companyid={x[2]}
+      filelocation={x[3]}
+      asset={x[4]}
+      uploaded={x[6]}
+    />
+  ));
   return (
-    <div>
-      <div onClick={() => {
-        console.log('lol');
-      }}
-      >
+    <React.Fragment>
+      <div className="assetHeadline">
         {props.title}
       </div>
 
       {detailesColumns}
-    </div>
+    </React.Fragment>
   );
 }

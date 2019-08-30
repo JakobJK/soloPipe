@@ -152,13 +152,13 @@ module.exports = {
     const {
       report, asset, project, userid,
     } = req.headers;
-
+    console.log(req.file);
     const client = parseInt(userid, 10);
     const fileLocation = req.file.path;
 
     pool
       .query(`INSERT INTO submission
-      (report, userid, fileLocation, asset, project, uploaded )
+      (report, companyid, fileLocation, asset, project, uploaded )
       VALUES ($1, $2, $3, $4, $5, now() )`, [report, client, fileLocation, asset, project])
       .then((response) => {
         console.log(response);
@@ -239,21 +239,26 @@ module.exports = {
 
   getfile: (req, res) => {
     const submissionid = req.params.id;
-    pool
-      .query('SELECT * FROM submission WHERE submissionid = $1', [submissionid])
-      .then((response) => {
-        const {
-          userid,
-          filelocation,
-        } = response.rows[0];
+    const { userid, permission } = res.locals;
 
-        if (res.locals.userid === userid || res.locals.permission === 'isAdmin') {
-          res.sendFile(path.join(__dirname, '../', filelocation), (error) => {
-            if (error) console.log(error);
-          });
-        } else {
-          console.log('Not SendFile');
-        }
+    const adminSql = `SELECT
+    submission.filelocation
+    FROM submission
+    JOIN companies
+    ON companies.companyid = submission.companyid
+    JOIN employees
+    ON employees.companyid = companies.companyid
+    JOIN users
+    ON users.userid = employees.userid
+    WHERE submission.submissionid = ${submissionid}`;
+
+    const userSql = `${adminSql} AND users.userid = ${userid}`;
+    const sql = permission ? adminSql : userSql;
+    pool
+      .query(sql)
+      .then((response) => {
+        res.attachment(path.join(__dirname, '../../', response.rows[0].filelocation));
+        res.end('Downloaded', 'UTF-8');
       })
       .catch(error => setImmediate(() => error));
   },

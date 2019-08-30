@@ -6,14 +6,13 @@ export default function Projects(props) {
   const allAssets = Object.keys(assets).map(x => <Assets title={x} details={assets[x]} />);
 
   return (
-    <div>
-      Project:
-      {' '}
-      {title}
-      <br />
-
+    <React.Fragment>
+      <div className="projectHeadline">
+        {title}
+        {' '}
+      /////// PROJECT
+      </div>
       {allAssets}
-
-    </div>
+    </React.Fragment>
   );
 }

@@ -6,10 +6,10 @@ import { setLogin } from '../store/action';
 export default function Login() {
   const dispatch = useDispatch();
   return (
-    <div>
-      <input type="text" id="loginInput" />
+    <div className="login">
+      <input type="text" id="loginInput" placeholder="Username" />
       <br />
-      <input type="password" id="passwordInput" />
+      <input type="password" id="passwordInput" placeholder="Password" />
       <br />
       <button
         type="button"
@@ -32,9 +32,18 @@ export default function Login() {
           }
         }}
       >
-        Submit
+        Login
       </button>
-      <Link to="/forgot">Forgot</Link>
+
+
+      <Link to="/forgot">
+        <div className="forgot">
+
+
+          Forgot your username or password?
+        </div>
+
+      </Link>
 
     </div>
   );
