@@ -10,6 +10,12 @@ body {
 }
 a {
   color: #CCC;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #DDD;
+  text-decoration: underline;
 }
 nav {
   display: flex;
@@ -34,9 +40,28 @@ main {
   padding-right: 10%;
 }
 
-.assetItem, .companyHeadline, .projectHeadline, .assetHeadline {
+/* .assetItem, .companyHeadline, .projectHeadline, .assetHeadline {
   display: block;
   padding: 2px;
+}
+.companyHeadline {
+  padding-top: 5%;
+}
+
+.projectHeadline {
+  width: 95%;
+  padding-left: 5%;
+}
+
+.assetHeadline {
+  width: 90%;
+  padding-left: 10%;
+} */
+
+.forgot {
+  padding-top: 10px;
+  font-size: 70%;
+  color: #888;
 }
 
 input {
@@ -63,6 +88,7 @@ button {
 }
 
 .login {
+  text-align: center;
   margin-top: 20vh;
   margin-left: 10%;
   margin-right: 10%;
@@ -71,21 +97,4 @@ button {
   padding: 50px;
   border: 1px solid #AAA;
   border-radius: 5px;
-}
-.companyHeadline {
-  padding-top: 5%;
-}
-
-.projectHeadline {
-  width: 95%;
-  padding-left: 5%;
-}
-.forgot {
-  padding-top: 10px;
-  font-size: 50%;
-  color: #888;
-}
-.assetHeadline {
-  width: 90%;
-  padding-left: 10%;
 }
