@@ -1,7 +1,5 @@
 from PySide2 import QtCore, QtGui, QtWidgets
 from shiboken2 import wrapInstance
-
-
 import maya.OpenMayaUI as omui
 import maya.cmds as cmds
 import os
@@ -53,7 +51,6 @@ class gSubmission(QtWidgets.QMainWindow):
         self.username.setMaximumWidth(200)
         self.password = QtWidgets.QLineEdit()
         self.password.setPlaceholderText("Password")
-
         self.password.setMaximumWidth(200)
         self.password.setEchoMode(QtWidgets.QLineEdit.EchoMode.Password)
         submit = QtWidgets.QPushButton("Login")
@@ -132,7 +129,7 @@ class gSubmission(QtWidgets.QMainWindow):
                 for object in self.response['res']:
                     if object['company'] not in self.clients:
                         self.clients.append(object['company'])
-
+                self.clientDropdown.clear()
                 for client in self.clients:
                     self.clientDropdown.addItem(client)
                 self.stackedWidget.setCurrentIndex(1)
@@ -142,8 +139,9 @@ class gSubmission(QtWidgets.QMainWindow):
         sendCredentiels()
 
     def logout(self):
-        self.stackedWidget.setCurrentIndex(0)
         self.jwt = ''
+        self.errorMessage.setText('')
+        self.stackedWidget.setCurrentIndex(0)
 
     def submit(self):
         print 'Hello there'
