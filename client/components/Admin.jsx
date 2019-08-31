@@ -24,11 +24,25 @@ export default function Admin() {
   const user = users.map(x => <User user={x} />);
   return (
     <div>
-      <h1>
+      <h2>
         Admin
-      </h1>
-
-      {user}
+      </h2>
+      <table className="usersTable">
+        <tr>
+          <th>Username</th>
+          <th>Company</th>
+          <th>Email</th>
+          <th>Promote</th>
+          <th>Delete</th>
+        </tr>
+        {user}
+      </table>
+      <h2>
+        Add User
+      </h2>
+      <h2>
+        Add Company
+      </h2>
     </div>
   );
 }

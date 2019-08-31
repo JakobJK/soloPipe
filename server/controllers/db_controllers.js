@@ -123,19 +123,7 @@ module.exports = {
     ON submission.companyid = companies.companyid
     `;
 
-    const userSql = `
-    SELECT
-    submission.submissionid,
-    submission.report,
-    submission.companyid,
-    submission.filelocation,
-    submission.asset,
-    submission.project,
-    submission.uploaded,
-    companies.company
-    FROM submission
-    JOIN companies
-    ON submission.companyid = companies.companyid
+    const userSql = `${adminSql}
     WHERE submission.companyid = ${companyid}
     `;
 
@@ -145,6 +133,23 @@ module.exports = {
       .then((response) => {
         res.send(response.rows);
         res.end();
+      })
+      .catch(error => setImmediate(() => error));
+  },
+  forMayaUI: (req, res, next) => {
+    pool
+      .query(`
+    SELECT
+    submission.asset,
+    submission.project,
+    companies.company
+    FROM submission
+    JOIN companies
+    ON submission.companyid = companies.companyid
+    `)
+      .then((response) => {
+        res.locals.mayaUI = (response.rows);
+        return next();
       })
       .catch(error => setImmediate(() => error));
   },

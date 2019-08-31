@@ -38,8 +38,6 @@ export default function Login() {
 
       <Link to="/forgot">
         <div className="forgot">
-
-
           Forgot your username or password?
         </div>
 

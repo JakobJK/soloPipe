@@ -22,6 +22,20 @@ module.exports = {
     });
   },
 
+  signUploadToken: (req, res, next) => {
+    const uploadToken = jwt.sign(
+      {
+        userid: res.locals.userid,
+        isAdmin: 1,
+      },
+      jwtSecret,
+    );
+
+
+    res.locals.uploadToken = uploadToken;
+    return next();
+  },
+
   signToken: (req, res, next) => {
     const signedJWT = jwt.sign(
       {
@@ -33,15 +47,17 @@ module.exports = {
       },
       jwtSecret,
     );
-    res.cookie('Authentication', signedJWT);
-    res.send({
-      username: res.locals.username,
-      userid: res.locals.userid,
-      permission: res.locals.permission,
-      companyid: res.locals.companyid,
-      isLoggedIn: 1,
-    });
-    return res.end();
+
+    res.locals.signedJWT = signedJWT;
+    // res.cookie('Authentication', signedJWT);
+    // res.send({
+    //   username: res.locals.username,
+    //   userid: res.locals.userid,
+    //   permission: res.locals.permission,
+    //   companyid: res.locals.companyid,
+    //   isLoggedIn: 1,
+    // });
+    return next();
   },
 
   isAdmin: (req, res, next) => {

@@ -4,6 +4,7 @@
 }
 
 body {
+  font-size: 90%;
   background-color: #1F2430;
   color: #AAA;
   font-family: 'Roboto', sans-serif;
@@ -20,12 +21,17 @@ a:hover {
 nav {
   display: flex;
   justify-content: space-between;
-  width: calc(100% - 100px);
-  height: 50px;
-  padding-left: 50px;
-  padding-right: 50px;
+  width: calc(100% - 30px);
+  padding: 15px;
+  margin-bottom: 15px;
+  border-bottom: 1px solid #888;
 }
 
+
+.usersTable {
+  width: 100%;
+  border: 1px solid black;
+}
 nav ul {
   list-style: none;
 }
@@ -39,24 +45,6 @@ main {
   padding-left: 10%;
   padding-right: 10%;
 }
-
-/* .assetItem, .companyHeadline, .projectHeadline, .assetHeadline {
-  display: block;
-  padding: 2px;
-}
-.companyHeadline {
-  padding-top: 5%;
-}
-
-.projectHeadline {
-  width: 95%;
-  padding-left: 5%;
-}
-
-.assetHeadline {
-  width: 90%;
-  padding-left: 10%;
-} */
 
 .forgot {
   padding-top: 10px;
@@ -77,6 +65,7 @@ input {
 input:focus {
   color: #AAA;
 }
+
 button {
   padding: 5px;
   margin-top: 5px;
@@ -85,6 +74,7 @@ button {
   background-color: #1F2430;
   border: 1px solid #AAA;
   width: 150px;
+  border-radius: 3px;
 }
 
 .login {

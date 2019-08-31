@@ -17,7 +17,6 @@ export default function Assets(props) {
       <div className="assetHeadline">
         {props.title}
       </div>
-
       {detailesColumns}
     </React.Fragment>
   );
