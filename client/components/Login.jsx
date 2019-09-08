@@ -1,6 +1,9 @@
 import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { setLogin } from '../store/action';
 
 export default function Login() {
+  const dispatch = useDispatch();
   return (
     <div>
       <input type="text" id="loginInput" />
@@ -22,7 +25,9 @@ export default function Login() {
                 password,
               }),
             }).then(response => response.json())
-              .then(data => console.log(data))
+              .then((data) => {
+                dispatch(setLogin(data));
+              })
               .catch(error => error);
           }
         }}

@@ -1,2 +1,5 @@
+dist
+.cache
 node_modules
 server/secrets/
+server/uploads
