@@ -42,8 +42,6 @@ class gSubmission(QtWidgets.QMainWindow):
 
         loginLayout = QtWidgets.QHBoxLayout(loginPage)
 
-        label = QtWidgets.QLabel()
-
         login = QtWidgets.QVBoxLayout()
 
         self.username = QtWidgets.QLineEdit()
@@ -54,13 +52,13 @@ class gSubmission(QtWidgets.QMainWindow):
         self.password.setMaximumWidth(200)
         self.password.setEchoMode(QtWidgets.QLineEdit.EchoMode.Password)
         submit = QtWidgets.QPushButton("Login")
+
         submit.setMaximumWidth(200)
         submit.clicked.connect(self.login)
 
         self.errorMessage = QtWidgets.QLabel('')
 
         login.addStretch()
-        login.addWidget(label)
         login.addWidget(self.username)
         login.addWidget(self.password)
         login.addWidget(submit)
@@ -75,14 +73,12 @@ class gSubmission(QtWidgets.QMainWindow):
 
         submissionWrap = QtWidgets.QVBoxLayout(submissionPage)
         submissionLayout = QtWidgets.QHBoxLayout()
-
         submissionWrap.addLayout(submissionLayout)
 
         # Widgets
 
         # Dropdowns
         self.clientDropdown = QtWidgets.QComboBox()
-        self.clientDropdown.lineEdit()
         self.projectDropdown = QtWidgets.QComboBox()
         self.assetDropdown = QtWidgets.QComboBox()
 
@@ -101,8 +97,9 @@ class gSubmission(QtWidgets.QMainWindow):
         self.report = QtWidgets.QPlainTextEdit()
 
         # Submission layout
-        submissionLayout
+        submissionLayout.addWidget(QtWidgets.QLabel('Client: '))
         submissionLayout.addWidget(self.clientDropdown)
+        submissionWrap.addWidget(QtWidgets.QLabel('Report:'))
         submissionWrap.addWidget(self.report)
 
         submissionWrap.addWidget(submit)
@@ -125,7 +122,6 @@ class gSubmission(QtWidgets.QMainWindow):
             if (result.status_code == 200):
                 self.response = json.loads(result.text)
                 self.jwt = self.response['JWT']
-                print self.response
                 for object in self.response['res']:
                     if object['company'] not in self.clients:
                         self.clients.append(object['company'])
