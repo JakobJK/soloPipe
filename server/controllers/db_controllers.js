@@ -1,15 +1,18 @@
 const bcrypt = require('bcrypt');
-const { Pool } = require('pg');
+// const { Pool } = require('pg');
 const path = require('path');
-const user = require('os').userInfo().username;
+const imported = require('../config/database');
 
-const pool = new Pool({
-  user,
-  host: 'localhost',
-  database: 'solopipe_db',
-  password: '1234',
-  port: 5432,
-});
+const pool = imported();
+// const user = require('os').userInfo().username;
+
+// const pool = new Pool({
+//   user,
+//   host: 'localhost',
+//   database: 'solopipe_db',
+//   password: '1234',
+//   port: 5432,
+// });
 
 module.exports = {
 

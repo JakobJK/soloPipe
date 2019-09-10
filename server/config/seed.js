@@ -2,7 +2,7 @@
 const { Pool } = require('pg');
 
 const user = require('os').userInfo().username;
-
+// const pool = require('./database');
 const pool = new Pool({
   user,
   host: 'localhost',
