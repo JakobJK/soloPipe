@@ -30,8 +30,6 @@ module.exports = {
       },
       jwtSecret,
     );
-
-
     res.locals.uploadToken = uploadToken;
     return next();
   },
@@ -49,14 +47,6 @@ module.exports = {
     );
 
     res.locals.signedJWT = signedJWT;
-    // res.cookie('Authentication', signedJWT);
-    // res.send({
-    //   username: res.locals.username,
-    //   userid: res.locals.userid,
-    //   permission: res.locals.permission,
-    //   companyid: res.locals.companyid,
-    //   isLoggedIn: 1,
-    // });
     return next();
   },
 
