@@ -133,7 +133,9 @@ class gSubmission(QtWidgets.QMainWindow):
                 self.stackedWidget.setCurrentIndex(1)
                 f.close()
             except urllib2.HTTPError, e:
-                self.errorMessage.setText('Wrong Credentiels')
+                self.errorMessage.setText('Wrong credentiels')
+            except urllib2.URLError, e:
+                self.errorMessage.setText('No response from server')
 
         sendCredentiels()
 
