@@ -3,7 +3,7 @@ from shiboken2 import wrapInstance
 import maya.OpenMayaUI as omui
 import maya.cmds as cmds
 import os
-import requests
+import urllib2
 import json
 
 
@@ -34,10 +34,11 @@ class gSubmission(QtWidgets.QMainWindow):
 
         loginPage = QtWidgets.QWidget()
         submissionPage = QtWidgets.QWidget()
+        loading = QtWidgets.QWidget()
 
         self.stackedWidget.addWidget(loginPage)
         self.stackedWidget.addWidget(submissionPage)
-
+        self.stackedWidget.addWidget(loading)
         # Login Page Layout
 
         loginLayout = QtWidgets.QHBoxLayout(loginPage)
@@ -115,13 +116,14 @@ class gSubmission(QtWidgets.QMainWindow):
         payload['password'] = self.password.text()
 
         def sendCredentiels():
-            fullname = cmds.file(query=True, sceneName=True)
-            files = {'upload_file': open(fullname, 'rb')}
-            result = requests.post(url, json=payload)
+            data = json.dumps(payload)
+            req = urllib2.Request(
+                url, data, {'Content-Type': 'application/json'})
+            try:
+                f = urllib2.urlopen(req)
+                JSONresponse = f.read()
+                self.response = json.loads(JSONresponse)
 
-            if (result.status_code == 200):
-                self.response = json.loads(result.text)
-                self.jwt = self.response['JWT']
                 for object in self.response['res']:
                     if object['company'] not in self.clients:
                         self.clients.append(object['company'])
@@ -129,7 +131,8 @@ class gSubmission(QtWidgets.QMainWindow):
                 for client in self.clients:
                     self.clientDropdown.addItem(client)
                 self.stackedWidget.setCurrentIndex(1)
-            else:
+                f.close()
+            except urllib2.HTTPError, e:
                 self.errorMessage.setText('Wrong Credentiels')
 
         sendCredentiels()
